@@ -1,5 +1,8 @@
 import 'dart:math' as math;
 
+/// An abstract class for accessing probability density,
+/// cumulative probability, quantile and random number generation
+/// functions for the normal distribution.
 abstract class Normal {
   static num _zpdf(x) => math.exp(-x * x / 2) / math.sqrt(2 * math.pi);
 
