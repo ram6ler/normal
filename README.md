@@ -1,4 +1,6 @@
-A simple library for working with the normal distribution.
+# normal
+
+A simple library for working with the normal probability distribution.
 
 ## Usage
 
@@ -109,4 +111,4 @@ Normal.generate
 
 ## Features and bugs
 
-
+Thanks for your interest in *normal*. Please submit [any issues you encounter](https://bitbucket.org/ram6ler/normal/issues).
