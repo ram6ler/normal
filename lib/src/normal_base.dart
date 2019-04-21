@@ -37,7 +37,7 @@ abstract class Normal {
   /// Approximation within 4.5E-4 (*Abramowitz* 26.2.23) of the normal
   /// quantile associated with [p].
   ///
-  static num inverseCdf(num p, {num mean = 0, num variance = 1}) {
+  static num quantile(num p, {num mean = 0, num variance = 1}) {
     final standardDeviation = math.sqrt(variance),
         restrictedP = p > 0.5 ? 1 - p : p,
         t = math.sqrt(math.log(1 / restrictedP / restrictedP)),
