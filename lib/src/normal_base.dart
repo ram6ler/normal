@@ -4,11 +4,11 @@ import 'dart:math' as math;
 /// cumulative probability, quantile and random number generation
 /// functions for the normal distribution.
 abstract class Normal {
-  static num _zpdf(x) => math.exp(-x * x / 2) / math.sqrt(2 * math.pi);
+  static double _zpdf(num x) => math.exp(-x * x / 2) / math.sqrt(2 * math.pi);
 
   /// Gives the normal probability density at [x].
-  static num pdf(num x, {num mean = 0, num variance = 1}) {
-    num standardDeviation = math.sqrt(variance);
+  static double pdf(num x, {num mean = 0, num variance = 1}) {
+    final standardDeviation = math.sqrt(variance);
     return _zpdf((x - mean) / standardDeviation) / standardDeviation;
   }
 
@@ -17,7 +17,7 @@ abstract class Normal {
   /// Approximation within 7.5E-8 (*Abramowitz* 26.2.17)
   /// of the cumulative probability.
   ///
-  static num cdf(num x, {num mean = 0, num variance = 1}) {
+  static double cdf(num x, {num mean = 0, num variance = 1}) {
     final standardDeviation = math.sqrt(variance),
         z0 = (x - mean) / standardDeviation,
         z = z0.abs(),
@@ -37,7 +37,7 @@ abstract class Normal {
   /// Approximation within 4.5E-4 (*Abramowitz* 26.2.23) of the normal
   /// quantile associated with [p].
   ///
-  static num quantile(num p, {num mean = 0, num variance = 1}) {
+  static double quantile(num p, {num mean = 0, num variance = 1}) {
     final standardDeviation = math.sqrt(variance),
         restrictedP = p > 0.5 ? 1 - p : p,
         t = math.sqrt(math.log(1 / restrictedP / restrictedP)),
@@ -49,7 +49,7 @@ abstract class Normal {
             (indices
                     .sublist(0, 3)
                     .map((i) => c[i] * tps[i])
-                    .fold(0, (a, b) => a + b)) /
+                    .fold<double>(0, (a, b) => a + b)) /
                 (indices.map((i) => d[i] * tps[i]).fold(0, (a, b) => a + b));
     return (p < 0.5 ? -1 : 1) * (mean + z * standardDeviation);
   }
@@ -59,7 +59,8 @@ abstract class Normal {
   /// Produces a pseudorandom sample drawn from a normal distribution
   /// through the Box-Muller algorithm.
   ///
-  static List<num> generate(int n, {num mean = 0, num variance = 1, int seed}) {
+  static List<double> generate(int n,
+      {num mean = 0, num variance = 1, int? seed}) {
     final rand = seed == null ? math.Random() : math.Random(seed),
         standardDeviation = math.sqrt(variance);
     List<num> pair() {
@@ -70,8 +71,8 @@ abstract class Normal {
       return [r * math.cos(t), r * math.sin(t)];
     }
 
-    var zScores = List<num>();
-    for (int _ = 0; _ < n ~/ 2; _++) {
+    var zScores = <num>[];
+    for (var _ = 0; _ < n ~/ 2; _++) {
       zScores.addAll(pair());
     }
     if (n % 2 == 1) {
