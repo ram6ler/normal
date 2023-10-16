@@ -5,6 +5,5 @@
 /// number generation via an abstract class `Normal`, which contains
 /// static methods `pdf`, `cdf`, `quantile` (inverse cdf) and `generate`.
 ///
-library normal;
 
 export 'src/normal_base.dart';
